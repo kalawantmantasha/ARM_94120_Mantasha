@@ -1,0 +1,4 @@
+../Src/gpio.c:27:6:gpio_init	1
+../Src/gpio.c:44:15:read_switch	1
+../Src/gpio.c:49:6:led_on	1
+../Src/gpio.c:54:6:led_off	1
