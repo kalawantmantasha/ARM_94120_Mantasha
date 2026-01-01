@@ -1,15 +1,18 @@
 /*
  * MQ2.h
  *
- *  Created on: Dec 31, 2025
- *      Author: anjal
+ *  Created on: Dec 30, 2025
+ *      Author: DELL G15 RYZEN
  */
 
 #ifndef INC_MQ2_H_
 #define INC_MQ2_H_
 
-#include "stm32f4xx_hal.h"
-void MQ2_Init(ADC_HandleTypeDef hadc1);
-uint16_t MQ2_Read();
+#include "main.h"
 
-#endif /* INC_MQ2_H_ */
+#include <stdbool.h>
+#include <stdint.h>
+#include<string.h>
+uint16_t MQ2_Read(void);
+
+#endif

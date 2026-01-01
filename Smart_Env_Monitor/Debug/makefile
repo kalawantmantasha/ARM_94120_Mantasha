@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Smart_ENV_Monitor_Project53
+BUILD_ARTIFACT_NAME := Smart_Env_Monitor
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Smart_ENV_Monitor_Project53.elf \
+Smart_Env_Monitor.elf \
 
 MAP_FILES += \
-Smart_ENV_Monitor_Project53.map \
+Smart_Env_Monitor.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Smart_ENV_Monitor_Project53.list \
+Smart_Env_Monitor.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Smart_ENV_Monitor_Project53.elf secondary-outputs
+main-build: Smart_Env_Monitor.elf secondary-outputs
 
 # Tool invocations
-Smart_ENV_Monitor_Project53.elf Smart_ENV_Monitor_Project53.map: $(OBJS) $(USER_OBJS) C:\Users\anjal\OneDrive\Desktop\STM_Projects\Smart_ENV_Monitor_Project53\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Smart_ENV_Monitor_Project53.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\anjal\OneDrive\Desktop\STM_Projects\Smart_ENV_Monitor_Project53\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Smart_ENV_Monitor_Project53.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Smart_Env_Monitor.elf Smart_Env_Monitor.map: $(OBJS) $(USER_OBJS) C:\Users\91824\Desktop\sunbeam\ data\ARM_94120_Mantasha\Smart_Env_Monitor\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Smart_Env_Monitor.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\91824\Desktop\sunbeam data\ARM_94120_Mantasha\Smart_Env_Monitor\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Smart_Env_Monitor.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Smart_ENV_Monitor_Project53.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Smart_ENV_Monitor_Project53.list"
+Smart_Env_Monitor.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Smart_Env_Monitor.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Smart_ENV_Monitor_Project53.elf Smart_ENV_Monitor_Project53.list Smart_ENV_Monitor_Project53.map default.size.stdout
+	-$(RM) Smart_Env_Monitor.elf Smart_Env_Monitor.list Smart_Env_Monitor.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

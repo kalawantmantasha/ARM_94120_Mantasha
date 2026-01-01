@@ -5,6 +5,7 @@
 #include "main.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include<string.h>
 
 /* LCD commands */
 #define LCD_CLEARDISPLAY    0x01

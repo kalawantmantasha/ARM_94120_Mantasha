@@ -18,10 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <string.h>
-#include "MQ2.h"
-#include "my_lcd.h"
+#include<MQ2.h>
+#include<LCD.h>
 #include<stdio.h>
+#include<string.h>
+#include<dht11.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -74,66 +75,85 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+char str[50];
+int val;
+uint8_t temperature1 = 0;
+uint8_t humidity1 = 0;
+char str1[50];
+//float temp;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
+  DHT11_Init();
   /* USER CODE BEGIN 2 */
-  char str[50];
-   int gas;
-     if (!lcd16x2_i2c_init(&hi2c1))
-         {
-             // LCD not detected
-             while(1);
-          }
-  /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+    	//float temp = 0.0f;
+
+
+  if(!lcd16x2_i2c_init(&hi2c1))
+    	  	  {
+    		  	  while(1);
+    	  	  }
   while (1)
   {
     /* USER CODE END WHILE */
-	  gas= MQ2_Read();
-	  	  lcd16x2_i2c_clear();
-	  	  lcd16x2_i2c_setCursor(0, 0);
-	  	  lcd16x2_i2c_printf("smoke detect:");
-	        lcd16x2_i2c_setCursor(1, 0);
-	        sprintf(str, " ADC:%d", gas);
-	  	 lcd16x2_i2c_printf(str);
-	  	  HAL_Delay(1000);
+	  uint8_t HUM_TEMP = DHT11_Read(&temperature1, &humidity1);
 
-	  	 HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12|GPIO_PIN_13,GPIO_PIN_RESET);
-	      if (gas >200 && gas<500)
-	  	  {
-	  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-	       }
-	      else if(gas>500 && gas<2000)
-	  	 {
-	  	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-	  	   }
+	  if (HUM_TEMP == 0)
+	  {
+	      lcd16x2_i2c_clear();
 
-    /* USER CODE BEGIN 3 */
+	      lcd16x2_i2c_setCursor(0, 0);   // ONLY this line is used
+	      sprintf(str1, "T=%dC  H=%d%%", temperature1, humidity1);
+	      lcd16x2_i2c_printf(str1);
+
+	     // HAL_Delay(1000);
+	  }
+
+
+
+
+	            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_RESET);
+	            //val = MQ2_Read();
+	                      if(val> 200 && val< 500)
+	                      {
+	                    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+	                      }
+	                      else if(val >500 && val <1000)
+	                      {
+	                    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+	                      }
+	                      else if(val >1500)
+	                      {
+	                    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+	                      }
+	                      else
+	                      {
+	                    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15,GPIO_PIN_SET);
+	                      }
+
+
+	                      val = MQ2_Read();
+	                     lcd16x2_i2c_clear();
+
+	                     lcd16x2_i2c_setCursor(1, 0);
+
+	                   sprintf(str, "Air_Quality=%d", val);
+	                   lcd16x2_i2c_printf(str);
+	                     HAL_Delay(1000);
+
+
+
+
   }
-  /* USER CODE END 3 */
+
 }
 
 /**
@@ -286,10 +306,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PD12 PD13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13;
+  /*Configure GPIO pins : PD12 PD13 PD14 PD15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

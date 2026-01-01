@@ -11,13 +11,12 @@
  * ============================================================= */
 
 /* LCD header file (contains macros & prototypes) */
-#include "my_lcd.h"
-
+#include "LCD.h"
+#include<MQ2.h>
 /* Standard C libraries */
 #include <stdio.h>      // for
 #include <string.h>     // for string handling
 #include <stdarg.h>     // for variable arguments
-
 /* STM32 HAL library */
 #include "stm32f4xx_hal.h"
 
@@ -26,7 +25,7 @@
  * ------------------------------------------------------------- */
 
 /* Pointer to I2C handle used by LCD */
-I2C_HandleTypeDef* lcd16x2_i2cHandle = NULL;
+I2C_HandleTypeDef*lcd16x2_i2cHandle = NULL;
 
 /* Stores detected LCD I2C address */
 uint8_t LCD_I2C_SLAVE_ADDRESS = 0;
